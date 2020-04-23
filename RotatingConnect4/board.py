@@ -3,6 +3,9 @@ class Board:
         self.width = 6
         self.height = 6
         self.board = []
+        self.gameOver = False
+        self.winningCoin = 0
+
         for i in range(self.height):
             temp = []
             for j in range(self.width):
@@ -27,7 +30,7 @@ class Board:
             return True
 
     def rotate(self, clockWise: True):
-        #helper function to get row with occupied slots
+        # helper function to get row with occupied slots
         def getRows(board):
             rows = []
             height = len(board)
@@ -49,26 +52,40 @@ class Board:
             afterRotation.append(temp)
 
         if clockWise:
-            #rotate clockWise 90 degree
+            # rotate clockWise 90 degree
             for i in range(self.width):
-                tempRow = rows[-1-i]
+                tempRow = rows[-1 - i]
                 if len(tempRow) != 0:
                     for j in range(len(tempRow)):
-                        afterRotation[-1-j][i] = tempRow[-1-j]
+                        afterRotation[-1 - j][i] = tempRow[-1 - j]
         else:
-            #rotate counter-clockWise 90 degree
+            # rotate counter-clockWise 90 degree
             for i in range(self.width):
                 tempRow = rows[i]
                 if len(tempRow) != 0:
                     for j in range(len(tempRow)):
-                        afterRotation[-1-j][i] = tempRow[j]
+                        afterRotation[-1 - j][i] = tempRow[j]
         self.setBoard(afterRotation)
         return
+
+    def checkOver(self):
+        for i in range(self.height):
+            for j in range(self.width):
+                try:
+                    if self.board[i][j] == self.board[i][j + 1] == self.board[i][j + 2] == self.board[i][j + 3] != 0 \
+                            or self.board[i][j] == self.board[i + 1][j] == self.board[i + 2][j] == self.board[i + 3][j] != 0 \
+                            or self.board[i][j] == self.board[i + 1][j + 1] == self.board[i + 2][j + 2] == self.board[i + 3][j + 3] != 0 \
+                            or self.board[i][j] == self.board[i - 1][j - 1] == self.board[i - 2][j - 2] == self.board[i - 3][j - 3] != 0:
+                        self.winningCoin = self.board[i][j]
+                        return True
+                except IndexError:
+                    pass
+        return False
 
     def printBoard(self):
         # print out the board
         for i in range(self.height):
-            print("-"*(4*(self.width)+1))
+            print("-" * (4 * (self.width) + 1))
             for j in range(self.width):
                 print("| " + str(self.board[i][j]), end=" ")
                 if j == self.width - 1:
@@ -78,28 +95,75 @@ class Board:
     #############################################################
     # What's in between would be functions for regular Connect4 #
     #############################################################
-    def heuristic(self, board):
-        return 0
+    def heuristic(self, board, coin: 1):
+        value = 0
+        for i in range(board.height):
+            for j in range(board.width):
+                try:
+                    # horizontally check connected coins
+                    if board[i][j] == board[i][j + 1] == coin:
+                        value += 1
+                    if board[i][j] == board[i][j + 1] == board[i][j + 2] == coin:
+                        value += 50
+                    if board[i][j] == board[i][j + 1] == board[i][j + 2] == board[i][j + 3] == coin:
+                        value += 10000
+                except IndexError:
+                    pass
+
+                try:
+                    # vertically check connected coins
+                    if board[i][j] == board[i + 1][j] == coin:
+                        value += 1
+                    if board[i][j] == board[i + 1][j] == board[i + 2][j] == coin:
+                        value += 50
+                    if board[i][j] == board[i + 1][j] == board[i + 2][j] == board[i + 3][j] == coin:
+                        value += 10000
+                except IndexError:
+                    pass
+
+                # diagonally check connected coins
+                try:
+                    if board[i][j] == board[i + 1][j + 1] == coin:
+                        value += 1
+                    if board[i][j] == board[i + 1][j + 1] == board[i + 2][j + 2] == coin:
+                        value += 50
+                    if board[i][j] == board[i + 1][j + 1] == board[i + 2][j + 2] == board[i + 3][j + 3] == coin:
+                        value += 10000
+                except IndexError:
+                    pass
+
+                try:
+                    if board[i][j] == board[i - 1][j - 1] == coin:
+                        value += 1
+                    if board[i][j] == board[i - 1][j - 1] == board[i - 2][j - 2] == coin:
+                        value += 50
+                    if board[i][j] == board[i - 1][j - 1] == board[i - 2][j - 2] == board[i - 3][j - 3] == coin:
+                        value += 10000
+                except IndexError:
+                    pass
+
+        return value
 
     def miniMax(self, node, depth, max):
         return
     #############################################################
 
 
-
 board = Board()
-board.put(1,2)
-board.put(2,2)
-board.put(1,1)
-board.put(2,3)
-board.put(1,1)
-board.put(2,1)
-board.put(1,3)
-board.put(2,5)
-board.put(1,1)
-board.put(2,0)
+board.put(1, 2)
+board.put(2, 2)
+board.put(1, 1)
+board.put(2, 3)
+board.put(1, 1)
+board.put(2, 1)
+board.put(1, 3)
+board.put(2, 5)
+board.put(1, 1)
+board.put(2, 0)
 board.printBoard()
 board.rotate(True)
 board.printBoard()
 board.rotate(True)
+board.printBoard()
+board.rotate(False)
 board.printBoard()
