@@ -138,6 +138,7 @@ class Board:
                 if j == self.width - 1:
                     print("|")
         print("-" * (4 * (self.width) + 1))
+        print()
 
 
 # test = [[0,0,0,0,0,0],

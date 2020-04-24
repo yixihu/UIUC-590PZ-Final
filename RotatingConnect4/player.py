@@ -124,6 +124,7 @@ if __name__ == '__main__':
     # decide which one goes first, True for player goes first, otherwise AI goes first
     firstHand = [True, False]
     goFirst = random.choice(firstHand)
+    print("=============== Game Start ===============")
 
     while not newGame.gameOver:
         if goFirst:
@@ -138,7 +139,7 @@ if __name__ == '__main__':
             move = miniMax(newGame, 6, True, -math.inf, math.inf)[1]
             if move[0] == 'r':
                 newGame.rotate(move[1])
-                print("Actual--------------Rotating!!!!!!!!!!!!!")
+                #print("Rotating!!!!!!!!!!!!!")
             elif move[0] == 'd':
                 newGame.put(2, move[1])
 
@@ -146,4 +147,5 @@ if __name__ == '__main__':
             newGame.printBoard()
             goFirst = not goFirst
 
+    print("=============== Game Over ===============")
     print("Player " + str(newGame.winningCoin) + " wins!!!!!!!!!!")
