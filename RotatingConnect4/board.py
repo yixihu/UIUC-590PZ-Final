@@ -140,32 +140,32 @@ class Board:
         print("-" * (4 * (self.width) + 1))
 
 
-test = [[0,0,0,0,0,0],
-        [0,0,0,0,0,0],
-        [0,0,0,0,0,1],
-        [0,0,0,2,1,2],
-        [0,0,2,1,2,1],
-        [0,0,1,2,1,2]]
-
-board = Board()
-board.put(1, 2)
-board.put(2, 2)
-board.put(1, 1)
-board.put(2, 3)
-board.put(1, 1)
-board.put(2, 1)
-board.put(1, 3)
-board.put(2, 5)
-board.put(1, 1)
-board.put(2, 0)
-board.printBoard()
-board.rotate(True)
-board.printBoard()
-board.rotate(True)
-board.printBoard()
-board.rotate(False)
-board.printBoard()
-
-board.setBoard(test)
-board.printBoard()
-print(board.checkOver())
+# test = [[0,0,0,0,0,0],
+#         [0,0,0,0,0,0],
+#         [0,0,0,0,0,1],
+#         [0,0,0,2,1,2],
+#         [0,0,2,1,2,1],
+#         [0,0,1,2,1,2]]
+#
+# board = Board()
+# board.put(1, 2)
+# board.put(2, 2)
+# board.put(1, 1)
+# board.put(2, 3)
+# board.put(1, 1)
+# board.put(2, 1)
+# board.put(1, 3)
+# board.put(2, 5)
+# board.put(1, 1)
+# board.put(2, 0)
+# board.printBoard()
+# board.rotate(True)
+# board.printBoard()
+# board.rotate(True)
+# board.printBoard()
+# board.rotate(False)
+# board.printBoard()
+#
+# board.setBoard(test)
+# board.printBoard()
+# print(board.checkOver())
