@@ -64,37 +64,56 @@ def miniMax(board, depth, maxPlayer, alpha, beta):
     elif depth == 0:
         return (heuristic(board, coin), None)
     else:
-        validColumns = board.validCol()
+        ##
+        validMoves = board.validMove()
+        # validColumns = board.validCol()
         if maxPlayer:
             maxValue = -math.inf
-            column = random.choice(validColumns)
+            ##
+            move = random.choice(validMoves)
+            # column = random.choice(validColumns)
 
-            for col in validColumns:
+            for movePair in validMoves:
                 newBoard = board.copy()
-                newBoard.put(coin, col)
+                if movePair[0] == 'r':
+                    # rotate
+                    newBoard.rotate(movePair[1])
+                elif movePair[0] == 'd':
+                    # dropping
+                    newBoard.put(coin, movePair[1])
+
+                # newBoard.put(coin, col)
                 outCome = miniMax(newBoard, depth - 1, False, alpha, beta)[0]
                 if outCome > maxValue:
                     maxValue = outCome
-                    column = col
+                    move = movePair
                 alpha = max(maxValue, alpha)
                 if alpha >= beta:
                     break
-            return (maxValue, column)
+            return (maxValue, move)
         else:
             minValue = math.inf
-            column = random.choice(validColumns)
+            move = random.choice(validMoves)
+            # column = random.choice(validColumns)
 
-            for col in validColumns:
+            for movePair in validMoves:
                 newBoard = board.copy()
-                newBoard.put(coin, col)
+                if movePair[0] == 'r':
+                    # rotate
+                    newBoard.rotate(movePair[1])
+                elif movePair[0] == 'd':
+                    # dropping
+                    newBoard.put(coin, movePair[1])
+
                 outcome = miniMax(newBoard, depth - 1, True, alpha, beta)[0]
                 if outcome < minValue:
                     minValue = outcome
-                    column = col
+                    move = movePair
                 beta = min(minValue, beta)
                 if alpha >= beta:
                     break
-            return (minValue, column)
+            return (minValue, move)
+
 
 
 if __name__ == '__main__':
@@ -117,7 +136,12 @@ if __name__ == '__main__':
             goFirst = not goFirst
         else:
             move = miniMax(newGame, 6, True, -math.inf, math.inf)[1]
-            newGame.put(2, move)
+            if move[0] == 'r':
+                newGame.rotate(move[1])
+                print("Actual--------------Rotating!!!!!!!!!!!!!")
+            elif move[0] == 'd':
+                newGame.put(2, move[1])
+
             newGame.checkOver()
             newGame.printBoard()
             goFirst = not goFirst

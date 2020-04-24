@@ -123,12 +123,10 @@ class Board:
         return columns
 
     def validMove(self):
-        moves = {'rotation': [True, False]}
-        columns = []
+        moves = [['r', True], ['r', False]]
         for i in range(self.width):
             if self.board[0][i] == 0:
-                columns.append(i)
-        moves['dropping'] = columns
+                moves.append(['d', i])
         return moves
 
     def printBoard(self):
